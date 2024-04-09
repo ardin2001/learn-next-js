@@ -25,3 +25,7 @@ a {
   background-color: greenyellow;
   padding: 10px 20px;
 }
+.link{
+  color: rgb(60, 60, 255);
+  font-weight: bold;
+}
