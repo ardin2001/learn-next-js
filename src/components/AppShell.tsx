@@ -1,11 +1,20 @@
 import Navbar from "./Navbar"
 import Footer from "./Footer"
-export default function AppShell(props: any) {
+import { useRouter } from "next/router"
+import { ReactNode } from "react"
+
+type AppShellprops = {
+    children : ReactNode
+}
+
+export default function AppShell(props: AppShellprops) {
+    const disablenavbar = ["/login", "/register","/404"]
+    const {route} =  useRouter()
     return (
         <>
-            <Navbar />
+            {disablenavbar.find(item => item === route) ? null : <Navbar />}
             {props.children}
-            <Footer />
+            {!disablenavbar.includes(route) && <Footer />}
         </>
     )
 }
