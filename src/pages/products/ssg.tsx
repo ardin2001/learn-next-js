@@ -1,9 +1,6 @@
 import { ProductType } from "@/types/productType";
-import { DeleteData } from '@/utils/FetchProducts';
+import {GetData} from "@/utils/FetchProducts";
 export default function Products({products}:{products:ProductType[]}) {
-    const HandlerDelete = async (id:any) =>{
-        DeleteData('products',id)
-    }
     return (
         <div className='grid grid-cols-5 gap-5 grid-flow-row w-11/12 mx-auto justify-between'>
             {products.map((data: ProductType) => {
@@ -13,7 +10,6 @@ export default function Products({products}:{products:ProductType[]}) {
                         <p>{data.name}</p>
                         <p>{data.category}</p>
                         <p>{data.price}</p>
-                        <button className='bg-red-500 px-2 py-1 text-white' onClick={() => HandlerDelete(data.id)}>Delete</button>
                     </div>
                 )
             })}
@@ -21,12 +17,11 @@ export default function Products({products}:{products:ProductType[]}) {
     );
 }
 
-export async function getServerSideProps() {
-    const response= await fetch('http://localhost:3000/api/products')
-    const json = await response.json()
+export async function getStaticProps() {
+    const response= await GetData('products')
     return {
         props: {
-            products: json.data
+            products: response
         }
     }
 }
