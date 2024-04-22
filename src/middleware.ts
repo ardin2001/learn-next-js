@@ -1,17 +1,8 @@
+import withAuth from "./middlewares/withAuth";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// This function can be marked `async` if using `await` inside
-export function middleware(request: NextRequest) {
-  const isLogin = true;
-  if(isLogin){
-    return NextResponse.next();
-  }else{
-    return NextResponse.redirect(new URL("/", request.url));
-  }
+export function mainMiddleware(request: NextRequest) {
+  return NextResponse.next();
 }
-
-// See "Matching Paths" below to learn more
-export const config = {
-  matcher: [ "/route1",'/route2/inner/deep/:id*'],
-};
+export default withAuth(mainMiddleware, ["/account"]);
