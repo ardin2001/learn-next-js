@@ -13,11 +13,22 @@ const authOptions:NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
+        username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials, req) {
-        const user = { id: "1", name: credentials?.username, email: `${credentials?.username}@example.com` }
+        async function login(username: any, password: any) {
+          const data = await fetch("/api/users/login", {
+            body: JSON.stringify({
+              username: username,
+              password: password
+            }),
+            method: "POST"
+          })
+          const json = await data.json()
+          return json
+        }
+        const user = await login(credentials?.username, credentials?.password)
   
         if (user) {
           return user
