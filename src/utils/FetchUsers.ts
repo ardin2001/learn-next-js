@@ -1,0 +1,79 @@
+import {
+  collection,
+  getDocs,
+  getFirestore,
+  addDoc,
+  doc,
+  getDoc,
+  updateDoc,
+  query,
+  where,
+} from "firebase/firestore";
+import App from "@/utils/db/firestore";
+const argon2 = require('argon2');
+
+const DB = getFirestore(App);
+
+async function PostDataUser(collectionName: string, addData: any) {
+  addData = JSON.parse(addData);
+  const q = query(
+    collection(DB, collectionName),
+    where("username", "==", addData.username)
+  );
+  const querySnapshot = await getDocs(q);
+  const data:any = querySnapshot.docs.map((doc) => {
+    return {
+      id: doc.id,
+      ...doc.data(),
+    };
+  });
+  
+  if (data.length == 0) {
+    const hash = await argon2.hash(addData.password);
+    addData.password = hash;
+    addData.role = "member";
+    const docRef = await addDoc(collection(DB, collectionName), addData);
+    return { status: true, data: { id: docRef.id, ...addData } };
+  }
+  return { status: false, data: null };
+}
+
+async function GetDataUserById(collectionName: string, id: string) {
+  const docRef = doc(DB, collectionName, id);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.data()) {
+    const data = { id: docSnap.id, ...docSnap.data() };
+    return { status: true, data };
+  }
+  return { status: false, data: null };
+}
+
+async function UpdateDataUser(
+  collectionName: string,
+  id: string,
+  dataUpdate: any
+) {
+  await updateDoc(doc(DB, collectionName, id), dataUpdate);
+}
+
+async function LoginUser(collectionName: string, dataLogin: any) {
+  // dataLogin = JSON.parse(dataLogin);
+  const q = query(
+    collection(DB, collectionName),
+    where("username", "==", dataLogin.username)
+  );
+  const querySnapshot = await getDocs(q);
+  const data:any = querySnapshot.docs.map((doc) => {
+    return {
+      id: doc.id,
+      ...doc.data(),
+    };
+  });
+  const hash = await argon2.verify(data[0].password, dataLogin.password);
+  if (hash) {
+    return { status: true, message: "Login Success" };
+  }
+  return { status: false, message: "Login Failed" };
+}
+
+export { PostDataUser, GetDataUserById, UpdateDataUser,LoginUser };

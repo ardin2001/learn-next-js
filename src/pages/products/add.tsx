@@ -1,4 +1,4 @@
-import { PostData } from "@/utils/FetchProducts";
+import { PostDataFirebase } from "@/utils/FetchProducts";
 type Product = {
     category: string,
     id: string,
@@ -9,7 +9,7 @@ type Product = {
 export default function AddProducts() {
     const HandlerPost = (e:any) => {
         e.preventDefault();
-        PostData("products",{
+        PostDataFirebase("products",{
             name: e.target.name.value,
             category: e.target.category.value,
             image: e.target.image.value,
