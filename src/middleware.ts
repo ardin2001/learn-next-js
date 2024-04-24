@@ -5,4 +5,4 @@ import type { NextRequest } from "next/server";
 export function mainMiddleware(request: NextRequest) {
   return NextResponse.next();
 }
-export default withAuth(mainMiddleware, ["/account"]);
+export default withAuth(mainMiddleware, ["/account","/products/isr","/admins"]);

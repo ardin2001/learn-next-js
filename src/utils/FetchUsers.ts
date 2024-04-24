@@ -10,12 +10,14 @@ import {
   where,
 } from "firebase/firestore";
 import App from "@/utils/db/firestore";
-const argon2 = require('argon2');
+import * as argon2 from "argon2";
 
 const DB = getFirestore(App);
 
 async function PostDataUser(collectionName: string, addData: any) {
-  addData = JSON.parse(addData);
+  if(typeof(addData) == 'string'){
+    addData = JSON.parse(addData);
+  }
   const q = query(
     collection(DB, collectionName),
     where("username", "==", addData.username)
@@ -57,7 +59,9 @@ async function UpdateDataUser(
 }
 
 async function LoginUser(collectionName: string, dataLogin: any) {
-  // dataLogin = JSON.parse(dataLogin);
+  if(typeof(dataLogin) == 'string'){
+    dataLogin = JSON.parse(dataLogin);
+  }
   const q = query(
     collection(DB, collectionName),
     where("username", "==", dataLogin.username)
@@ -69,11 +73,10 @@ async function LoginUser(collectionName: string, dataLogin: any) {
       ...doc.data(),
     };
   });
-  const hash = await argon2.verify(data[0].password, dataLogin.password);
-  if (hash) {
-    return { status: true, message: "Login Success" };
+  if (data.length > 0) {
+    return { status: true, message: "Login Success",data };
   }
-  return { status: false, message: "Login Failed" };
+  return { status: false, message: "Login Failed",data:null };
 }
 
 export { PostDataUser, GetDataUserById, UpdateDataUser,LoginUser };
