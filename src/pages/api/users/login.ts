@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import { GetDataUserById,PostDataUser,UpdateDataUser,LoginUser } from "@/utils/FetchUsers";
+import { LoginUser } from "@/utils/FetchUsers";
+import * as argon2 from "argon2";
 
 type Data = {
   status: boolean;
@@ -13,8 +14,17 @@ export default async function User(
   res: NextApiResponse<Data>,
 ) {
   if (req.method == "POST") {
-    const { status, message } : any = await LoginUser("users", req.body);
-    if (status) {
+    const { status, message,data } : any = await LoginUser("users", req.body);
+    if(!status){
+      res.status(401).json({
+        status,
+        statusCode: 401,
+        message:"incorrect username",
+      });
+    }
+    const inputUser = JSON.parse(req.body)
+    const hash = await argon2.verify(data[0].password, inputUser.password);
+    if (hash) {
       res.status(200).json({
         status,
         statusCode: 200,
@@ -24,7 +34,7 @@ export default async function User(
       res.status(401).json({
         status,
         statusCode: 401,
-        message,
+        message:"incorrect password",
       });
     }
   }
