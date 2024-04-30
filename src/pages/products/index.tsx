@@ -3,6 +3,8 @@ import useSWR from "swr";
 import { fetcher } from '@/utils/fetcher';
 import { DeleteData } from '@/utils/FetchProducts';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
+import {Roboto} from 'next/font/google'
 
 type Product = {
     category: string,
@@ -11,6 +13,9 @@ type Product = {
     name: string,
     price: number,
 }
+
+const roboto = Roboto({ subsets: ['latin'], weight: '700' })
+
 export default function Products() {
     const router = useRouter();
     // const [products, setProducts] = useState<Product[]>([]);
@@ -33,8 +38,9 @@ export default function Products() {
             {data.data.map((data: Product) => {
                 return (
                     <div key={data.id} className=' p-2 bg-slate-400 rounded-md'>
-                        <img src={data.image} alt="" />
-                        <p>{data.name}</p>
+                        {/* <img src={data.image} alt="" /> */}
+                        <Image src={data.image} alt="" width={800} height={80000} />
+                        <p className={roboto.className}>{data.name}</p>
                         <p>{data.category}</p>
                         <p>{data.price}</p>
                         <button className='bg-red-500 px-2 py-1 text-white' onClick={() => HandlerDelete(data.id)}>Delete</button>
