@@ -18,10 +18,11 @@ export default function Products({products}:{products:ProductType[]}) {
 }
 
 export async function getStaticProps() {
-    const response= await GetData('products')
+    const response = await fetch(`${process.env.HOSTNAME}/api/products`)
+    const {data} = await response.json()
     return {
         props: {
-            products: response
+            products: data
         },
         // revalidate:10,
     }
