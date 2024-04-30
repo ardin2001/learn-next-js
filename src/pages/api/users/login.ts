@@ -11,36 +11,36 @@ type Data = {
 
 export default async function User(
   req: NextApiRequest,
-  res: NextApiResponse<Data>,
+  res: NextApiResponse<Data>
 ) {
   if (req.method == "POST") {
-    const { status, message,data } : any = await LoginUser("users", req.body);
-    if(!status){
+    const { status, message, data }: any = await LoginUser("users", req.body);
+    if (!status) {
       res.status(401).json({
         status,
         statusCode: 401,
-        message:"incorrect username",
-      });
-    }
-    const inputUser = JSON.parse(req.body)
-    const hash = await argon2.verify(data[0].password, inputUser.password);
-    if (hash) {
-      res.status(200).json({
-        status,
-        statusCode: 200,
-        message,
+        message: "incorrect username",
       });
     } else {
-      res.status(401).json({
-        status,
-        statusCode: 401,
-        message:"incorrect password",
-      });
+      const hash = await argon2.verify(data[0].password, req.body.password);
+      if (hash) {
+        res.status(200).json({
+          status,
+          statusCode: 200,
+          message,
+        });
+      } else {
+        res.status(401).json({
+          status,
+          statusCode: 401,
+          message: "incorrect password",
+        });
+      }
     }
   }
   res.status(401).json({
-    status :false,
+    status: false,
     statusCode: 401,
-    message:"Invalid request users",
+    message: "Invalid request users",
   });
 }

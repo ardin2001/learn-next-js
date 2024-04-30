@@ -11,14 +11,14 @@ export default function Login() {
         try {
             const response:any = await signIn("credentials", {
                 redirect: false,
-                username: event.target.username.value,
+                email: event.target.email.value,
                 password: event.target.password.value,
                 callbackUrl: callbackUrl,
             })
             if(response.ok){
                 router.push(callbackUrl)
             }else{
-                setMessage("Error username or password")
+                setMessage("Error email or password")
             }
         } catch (err:any) {
             setMessage(err.message);
@@ -28,13 +28,14 @@ export default function Login() {
         <div>
             <h3 className="text-center text-3xl text-green-500 font-bold pb-5">Login Page</h3>
             <form onSubmit={HandlerLogin} className="grid w-1/3 m-0-auto bg-green-300 p-5 m-auto gap-3">
-                <label htmlFor="username">Username</label>
-                <input type="text" id="username" />
+                <label htmlFor="email">Email</label>
+                <input type="text" id="email" />
                 <label htmlFor="password">Password</label>
                 <input type="password" id="password" />
                 <button type="submit" className="bg-blue-500 py-1">Login</button>
                 <p className="text-center">{message}</p>
             </form>
+            <p className="text-center font-semibold text-white text-lg w-1/3 bg-red-500 m-auto py-3 cursor-pointer" onClick={() => signIn("google", { callbackUrl: callbackUrl,redirect: false })}>Login With Google</p>
         </div>
     );
 }

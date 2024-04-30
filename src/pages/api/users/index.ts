@@ -14,7 +14,9 @@ export default async function User(
   res: NextApiResponse<Data>,
 ) {
   if (req.method == "POST") {
-    const { status, data } : any = await PostDataUser("users", req.body);
+    req.body.role = "member"
+    req.body.email_verified = false
+    const { status, data } : any = await PostDataUser("users", req.body,'credentials');
     if (status) {
       res.status(200).json({
         status,
