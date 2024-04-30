@@ -1,7 +1,9 @@
 import Navbar from "./Navbar"
-import Footer from "./Footer"
 import { useRouter } from "next/router"
 import { ReactNode } from "react"
+import dynamic from "next/dynamic"
+
+const Footer = dynamic(() => import("./Footer"), { ssr: false })
 
 type AppShellprops = {
     children : ReactNode
