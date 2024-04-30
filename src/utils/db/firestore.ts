@@ -13,12 +13,12 @@ import { initializeApp } from "firebase/app";
 //   appId: process.env.APP_ID
 // };
 const firebaseConfig = {
-  apiKey: 'AIzaSyDnrjdN93QHpMeIbI89e96-VcsBaYMnAvo',
-  authDomain: 'project-belajar-next-js.firebaseapp.com',
-  projectId: 'project-belajar-next-js',
-  storageBucket: 'project-belajar-next-js.appspot.com',
-  messagingSenderId: '1022375553707',
-  appId: '1:1022375553707:web:c8f5fe232f01e97921a5ee'
+  apiKey: "AIzaSyD0cAw10iaDxLC6NSZKctoASNWTVFvs7_I",
+  authDomain: "backend-learning-next-js.firebaseapp.com",
+  projectId: "backend-learning-next-js",
+  storageBucket: "backend-learning-next-js.appspot.com",
+  messagingSenderId: "79623402938",
+  appId: "1:79623402938:web:a153cad3a3b9b2a77ed983"
 };
 
 // Initialize Firebase
