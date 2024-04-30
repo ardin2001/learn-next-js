@@ -21,7 +21,7 @@ export default function Products() {
     // const [products, setProducts] = useState<Product[]>([]);
     // useEffect(() => {
     //     (async function getDataProducts() {
-    //         const data = await fetch('/api/products');
+    //         consapit data = await fetch('//products');
     //         const json = await data.json();
     //         setProducts(json.data);
     //     })();
@@ -39,7 +39,7 @@ export default function Products() {
                 return (
                     <div key={data.id} className=' p-2 bg-slate-400 rounded-md'>
                         {/* <img src={data.image} alt="" /> */}
-                        <Image src={data.image} alt="" width={800} height={80000} />
+                        <Image src={data.image} alt="" width={800} height={800} />
                         <p className={roboto.className}>{data.name}</p>
                         <p>{data.category}</p>
                         <p>{data.price}</p>
