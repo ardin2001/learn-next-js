@@ -1,8 +1,8 @@
-import About from "@/pages/about";
+import Admin from "@/pages/admins";
 import { render } from "@testing-library/react";
 
 describe("about page", () => {
     it("should render correctly", () => {
-        expect(render(<About/>)).toMatchSnapshot();
+        expect(render(<Admin/>)).toMatchSnapshot();
     })
 })
