@@ -1,7 +1,7 @@
 
 import Head from "next/head";
 import Image from "next/image";
-export default function SlugShop() {
+export default function NotFound() {
     return (
       <div className="my-10">
         <Head>

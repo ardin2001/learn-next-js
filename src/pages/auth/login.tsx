@@ -6,6 +6,7 @@ export default function Login() {
     const [message, setMessage] = useState("");
     const router = useRouter();
     const callbackUrl: any = router.query.callbackUrl || "/"
+    
     const HandlerLogin = async (event: any) => {
         event.preventDefault();
         try {
